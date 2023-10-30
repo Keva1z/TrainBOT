@@ -58,10 +58,16 @@ pip install -r requirements.txt
 python create_keys.py
 ```
 
-## Step 4: Start bot
+## Step 4: Create database
+
+### Bot using sqlite3 so
+
+### Create 'database.db' file in misc folder
+
+## Step 5: Start bot
 
 ```bash
 python main.py
 ```
 
-### Profit
+## Step 6: Profit
