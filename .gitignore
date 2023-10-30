@@ -119,7 +119,6 @@ celerybeat.pid
 # SageMath parsed files
 *.sage.py
 
-<<<<<<< HEAD
 # RSA keys
 *.pem
 
@@ -127,8 +126,9 @@ celerybeat.pid
 test.py
 .vscode
 
-=======
->>>>>>> 2cc54e0ba1c0aa94f060cb4405f5269c05542ce0
+#databases
+*.db
+
 # Environments
 .env
 .venv
