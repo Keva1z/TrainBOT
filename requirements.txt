@@ -1,6 +1,5 @@
-aiogram==2.25.1
+aiogram==3.1.1
 aiosqlite==0.19.0
 colorama==0.4.6
-pycryptodome==3.17
 pycryptodome==3.19.0
 python-dotenv==1.0.0

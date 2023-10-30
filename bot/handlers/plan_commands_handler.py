@@ -22,10 +22,10 @@ async def write_plan(message: types.Message):
     
     if name != '':
         if name in user.plans:
-            text = '<b>Упражнения в плане:</b>\n----------------'
+            text = '<b>Упражнения в плане:</b>\n------------------------------'
             id = 1
             for i in user.plans[name]:
-                text += f'\n{id}) ' + i
+                text += f'\n{id}) <b>' + i + '</b>'
                 id += 1
         else:
             text = f'Плана "<b>{name}</b>" не существует'
@@ -48,9 +48,9 @@ async def create_plan(message: types.Message):
         await database.user.save(user)
         await message.reply(f"""<b>Создал план тренировок [{name}]!</b>
     <code>/plan {name}</code> - установить план как план тренировок
+    <code>/delete_plan {name}</code> - Удалить план
     /all_plans - Чтобы посмотреть список планов
-    /excercise_add - Добавить упражнение в план
-    /delete_plan - Удалить план""")
+    /excercise_add - Добавить упражнение в план""")
     else:
         await message.reply(f"""<b>Вы не можете создать план без названия!</b>""")
         
@@ -64,9 +64,9 @@ async def all_plans(message: types.Message, form:bool = False):
     text = 'Ваши планы: \n'
     if user.plans != {}:
         for i in user.plans:
-            text += f'{i} - {len(user.plans[i])} упражнений\n'
+            text += f'🔸 <b>{i}</b> - <u>{len(user.plans[i])} упражнений</u>\n'
     else:
-        text = "У вас нет планов, создайте первый!\n/create_plan [название плана]"
+        text = "У вас нет планов, создайте первый!\n<code>/create_plan [название плана]</code>"
     
     if form:
         await bot.send_message(text,
@@ -91,16 +91,16 @@ async def delete_plan(message: types.Message):
         
             await message.reply(f"""<b>Удалил план тренировок <u>{name}</u>!</b>
     /all_plans - Чтобы посмотреть список планов
-    /create_plan [название] - Чтобы создать план""")
+    <code>/create_plan [название]</code> - Чтобы создать план""")
         
         else:
             await message.reply(f"""<b>Плана <u>{name}</u> не существует!</b>
     /all_plans - Чтобы посмотреть список планов
-    /create_plan [название] - Чтобы создать план""")
+    <code>/create_plan [название]</code> - Чтобы создать план""")
     else:
         await message.reply(f"""<b>Вы не можете удалить план без названия!</b>
     /all_plans - Чтобы посмотреть список планов
-    /create_plan [название] - Чтобы создать план""")
+    <code>/create_plan [название]</code> - Чтобы создать план""")
         
 @router.message(Command('plan'))
 async def plan(message: types.Message):
@@ -159,23 +159,5 @@ async def excercise_remove(message: types.Message):
         await message.reply(f"""<b>Плана <u>{name}</u> не существует!</b>
         /all_plans - Чтобы посмотреть список планов
         <code>/create_plan </code> - Чтобы создать план""")
-    
-    # if name != '':
-    #     if name in user.plans:
-    #         user.plans[name].pop(ex)
-    #         await database.user.save(user)
-        
-    #         await message.reply(f"""<b>Удалил план тренировок <u>{name}</u>!</b>
-    # /all_plans - Чтобы посмотреть список планов
-    # /create_plan [название] - Чтобы создать план""")
-        
-    #     else:
-    #         await message.reply(f"""<b>Плана <u>{name}</u> не существует!</b>
-    # /all_plans - Чтобы посмотреть список планов
-    # /create_plan [название] - Чтобы создать план""")
-    # else:
-    #     await message.reply(f"""<b>Вы не можете удалить план без названия!</b>
-    # /all_plans - Чтобы посмотреть список планов
-    # /create_plan [название] - Чтобы создать план""")
 
 # /excercise_add in bot.handlers.form_handler
