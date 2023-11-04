@@ -50,14 +50,17 @@ class keyboard:
         buttons = []
         if curr_page > 1:
             buttons.append(InlineKeyboardButton(text=' ◀️ ', callback_data=(f'PAGE- {curr_page}')))
+            buttons.append(InlineKeyboardButton(text=' ↩️ ', callback_data=(f'PAGE_START')))
         
         if curr_page == 1:
             buttons.append(InlineKeyboardButton(text='  ', callback_data=(f'FEED')))
-        
-        buttons.append(InlineKeyboardButton(text='  ', callback_data=(f'FEED')))
+            buttons.append(InlineKeyboardButton(text='  ', callback_data=(f'FEED')))
         
         if curr_page < max_pages:
             buttons.append(InlineKeyboardButton(text=' ▶️ ', callback_data=(f'PAGE+ {curr_page}')))
+            
+        if curr_page == max_pages:
+            buttons.append(InlineKeyboardButton(text='  ', callback_data=(f'FEED')))
         
         return InlineKeyboardMarkup(inline_keyboard=[buttons])
         

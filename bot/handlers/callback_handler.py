@@ -23,7 +23,7 @@ async def handle_callback_query(call: types.CallbackQuery):
     
     
     
-    if "PAGE+" in data:
+    if "PAGE+" in data: 
         message = call.message
         page = int(data.split()[-1])
         await help(message, message, page=page+1)
@@ -32,6 +32,10 @@ async def handle_callback_query(call: types.CallbackQuery):
         message = call.message
         page = int(data.split()[-1])
         await help(message, message, page=page-1)
+    
+    elif "PAGE_START" in data:
+        message = call.message
+        await help(message, message, page=1)
     
     if "ACCEPTED" in data:
         status, id, p_id, msg, a = data.split()
