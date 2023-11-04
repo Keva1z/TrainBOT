@@ -95,7 +95,7 @@ async def handle_callback_query(call: types.CallbackQuery):
                     user.completed = 0
             else:
                 partner = await database.user.load(user.partner_id)
-                if len(user.rewards) > 0:
+                if len(partner.rewards) > 0:
                     prize_id = random.randint(0, len(partner.rewards)-1)
                     partner.rewards[prize_id].count += 1
                     text = f"Вы выполнили тренировку, молодец!\nВаш приз - <b>{partner.rewards[prize_id].name}</b>"
