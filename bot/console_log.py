@@ -3,7 +3,7 @@ from colorama import Fore, Back
 
 colorama.init(autoreset=True)
 
-bot_name = 'test_freelanceKEV_bot'
+bot_name = 'PairTraining_Bot'
 
 class logger():
     class telegram():
