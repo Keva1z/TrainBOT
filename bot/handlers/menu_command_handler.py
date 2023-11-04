@@ -255,9 +255,13 @@ async def training(message,
             new_message = await bot.edit_message_text(text = text,
                                         chat_id= chatID,
                                         message_id= msg_id,
-                                        reply_markup=keyboard)
+                                        reply_markup=keyboard,
+                                        disable_web_page_preview=True)
         else:
-            new_message = await bot.send_message(text = text, chat_id = chatID, reply_markup=keyboard)
+            new_message = await bot.send_message(text = text,
+                                                 chat_id = chatID,
+                                                 reply_markup=keyboard,
+                                                 disable_web_page_preview=True)
         if active:
             user.active_message = new_message.message_id
             user.active = True

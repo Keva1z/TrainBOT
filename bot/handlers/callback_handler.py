@@ -93,6 +93,7 @@ async def handle_callback_query(call: types.CallbackQuery):
                 else:
                     text = f"Вы выполнили тренировку, молодец!\nНо у вас нету созданных наград, вы ничего не получили("
                     user.completed = 0
+                
             else:
                 partner = await database.user.load(user.partner_id)
                 if len(partner.rewards) > 0:
@@ -101,7 +102,9 @@ async def handle_callback_query(call: types.CallbackQuery):
                     text = f"Вы выполнили тренировку, молодец!\nВаш приз - <b>{partner.rewards[prize_id].name}</b>"
                     user.completed = 0
                 else:
-                   text = f"Вы выполнили тренировку, молодец!\nНо у вашего партнёра нету созданных наград, вы ничего не получили(" 
+                   text = f"Вы выполнили тренировку, молодец!\nНо у вашего партнёра нету созданных наград, вы ничего не получили("
+                   user.completed = 0
+                   
                 await database.user.save(partner)
         else:
             text = f"""Вы выполнили тренировку, <b>умница!</b>
