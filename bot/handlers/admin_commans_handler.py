@@ -8,7 +8,9 @@ import json
 from database.manager import database, User
 
 router = Router()
+dispatcher = None
 bot = None
+resetter = None
 
 @router.message(Command('say'))
 async def help(message: types.Message):
@@ -25,3 +27,11 @@ async def help(message: types.Message):
                                     text=text)
             except Exception as e:
                 print(user_id, ' ошибка отправки сообщения')
+                
+@router.message(Command('stop'))
+async def help(message: types.Message):
+    if message.from_user.id in admin_list:
+        logger.telegram.log_command(message.from_user.username, "/stop")
+        
+        await dispatcher.stop_polling()
+        resetter.stop()

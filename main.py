@@ -22,6 +22,38 @@ from bot.handlers import (
     admin_commans_handler,
 )
 
+class Reset_Thread():
+    def __init__(self):
+        self.thread = None
+        self.started = True
+    def threaded_program(self):
+        print("Started daily resetter")
+    
+        def reset_daily():
+            async def reset():
+                logger.database.log("Resetting daily database data...")
+                for user_id in database.user.get_ids():
+                    user = await database.user.load(user_id)
+                    user.completed_today = 0
+                    await database.user.save(user)
+                    
+            loop.run_until_complete(reset())
+            
+        
+            loop = asyncio.new_event_loop()
+            
+            schedule.every().day.do(reset_daily)
+            
+            while self.started:
+                schedule.run_pending()
+                time.sleep(1)
+    def run(self):
+        self.thread = Thread(target=self.threaded_program, args=())
+        self.thread.start()
+    def stop(self):
+        self.started = False
+        self.thread.join()
+
 def resetter():
     
     print("Started daily resetter")
@@ -46,7 +78,7 @@ def resetter():
         time.sleep(1)
     
 
-async def main() -> None:
+async def main(thread) -> None:
     load_dotenv('misc/.env')
     
     token = os.getenv('TOKEN_API')
@@ -56,7 +88,10 @@ async def main() -> None:
     menu_command_handler.bot = bot
     callback_handler.bot = bot
     profile_commands_handler.bot = bot
+    rewards_command_handler.bot = bot
     admin_commans_handler.bot = bot
+    admin_commans_handler.dispatcher = dp
+    admin_commans_handler.resetter = thread
     
     dp.include_routers(
         admin_commans_handler.router,
@@ -73,11 +108,13 @@ async def main() -> None:
     
     await dp.start_polling(bot)
     
+    
 if __name__ == '__main__':
     os.system('cls')
     logger.database.log("Loading database...")
     database.load()
-    resetter = Thread(target=resetter).start()
-    asyncio.run(main())
+    resetter = Reset_Thread()
+    resetter.run()
+    asyncio.run(main(resetter))
 
 

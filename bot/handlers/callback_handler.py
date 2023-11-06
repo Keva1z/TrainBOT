@@ -96,9 +96,10 @@ async def handle_callback_query(call: types.CallbackQuery):
                 
             else:
                 partner = await database.user.load(user.partner_id)
+                partner_rewards = await database.reward.load(user.partner_id)
                 if len(partner.rewards) > 0:
                     prize_id = random.randint(0, len(partner.rewards)-1)
-                    partner.rewards[prize_id].count += 1
+                    partner_rewards.rewards[prize_id].count += 1
                     text = f"Вы выполнили тренировку, молодец!\nВаш приз - <b>{partner.rewards[prize_id].name}</b>"
                     user.completed = 0
                 else:
@@ -106,6 +107,7 @@ async def handle_callback_query(call: types.CallbackQuery):
                    user.completed = 0
                    
                 await database.user.save(partner)
+                await database.reward.save(partner_rewards)
         else:
             text = f"""Вы выполнили тренировку, <b>умница!</b>
 <b>Выполнено сегодня</b> - <u><b>{user.completed_today}</b></u>
