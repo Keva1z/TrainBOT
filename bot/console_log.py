@@ -16,12 +16,14 @@ class logger():
                 command (str): command to log
             """
             
+            print()
             pref = "USER"
             if username == bot_name:
                 pref = 'BOT'
             
             print(Back.BLACK + (Fore.YELLOW + f"({datetime.now().strftime('%H:%M:%S')})"+ Fore.RED + "[" + pref +"] " + Fore.CYAN + username + Fore.WHITE + " : " + command + " "))
-    
+            print()
+            
     class database():
         def log(message: str) -> None:
             print(Back.BLACK + (Fore.YELLOW + f"({datetime.now().strftime('%H:%M:%S')})"+ Fore.RED + "[DATABASE] " + Fore.GREEN + message + " "))
@@ -29,4 +31,5 @@ class logger():
     
     class daily_reset():
         def log(message: str) -> None:
+            print()
             print(Back.BLACK + (Fore.YELLOW + f"({datetime.now().strftime('%H:%M:%S')})"+ Fore.LIGHTCYAN_EX + "[Daily Reset] " + Fore.LIGHTYELLOW_EX + message + " "))
