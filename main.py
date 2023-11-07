@@ -29,26 +29,28 @@ class Reset_Thread():
     def threaded_program(self):
         logger.daily_reset.log("Starting daily resetter...")
         logger.daily_reset.log("Started")
+        
+        loop = asyncio.new_event_loop()
     
         def reset_daily():
             async def reset():
                 logger.daily_reset.log("Resetting completed daily tasks...")
-                for user_id in database.user.get_ids():
+                for user_id in await database.user.get_ids():
                     user = await database.user.load(user_id)
                     user.completed_today = 0
                     await database.user.save(user)
                 logger.daily_reset.log("Resetting complete")
                     
             loop.run_until_complete(reset())
-            
         
-            loop = asyncio.new_event_loop()
-            
-            schedule.every().day.at("22:00").do(reset_daily)
-            
-            while self.started:
-                schedule.run_pending()
-                time.sleep(1)
+        schedule.every().day.at("22:00").do(reset_daily)
+        
+        while self.started:
+            schedule.run_pending()
+            time.sleep(1)
+            print("Pending")
+                
+        
     def run(self):
         self.thread = Thread(target=self.threaded_program, args=())
         self.thread.start()
