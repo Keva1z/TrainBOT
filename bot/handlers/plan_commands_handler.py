@@ -116,6 +116,10 @@ async def plan(message: types.Message):
             state, reason = await Trainer()._load_plan(name, user)
         else:
             state, reason = False, f"Тренировка <b>{name}</b> уже установлена!"
+        
+        if user.active or (len(user.task_list) != len(user.plans[name]) and len(user.task_list) > 0) :
+            state, reason = False, f"У вас есть активная тренировка, необходимо закончить ее чтобы поставить новую"
+        
         if state:
                 await message.answer(f"Поменял тренировку на план <b>{name}</b>",
                                 reply_markup=await kb.basic())

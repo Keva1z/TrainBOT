@@ -69,14 +69,13 @@ async def my_rewards(message: types.Message):
     user_id = message.from_user.id
     user = await database.user.load(user_id)
     
-    text = f"<b>{user.name}</b>, вот ваши награды: \n"
+    text = f"<b>{user.name}</b>, вот награды созданные вами: \n"
     prizes = ""
     id = 1
     for prize in user.rewards:
         prizes += f"{id}) <b>{prize.name}</b> - <b>{prize.count}</b>\n"
         id += 1
     text += prizes
-    text += "\n\nЧтобы использовать награду напишите <code>/use [Номер награды]</code>"
     await message.answer(text = text)
     
 @router.message(Command('remove_reward'))
