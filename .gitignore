@@ -8,7 +8,7 @@ __pycache__/
 
 # Admin list file
 
-bot\admin_list.py
+admin_list.py
 
 # Distribution / packaging
 .Python
