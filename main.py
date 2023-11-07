@@ -27,22 +27,24 @@ class Reset_Thread():
         self.thread = None
         self.started = True
     def threaded_program(self):
-        print("Started daily resetter")
+        logger.daily_reset.log("Starting daily resetter...")
+        logger.daily_reset.log("Started")
     
         def reset_daily():
             async def reset():
-                logger.database.log("Resetting daily database data...")
+                logger.daily_reset.log("Resetting completed daily tasks...")
                 for user_id in database.user.get_ids():
                     user = await database.user.load(user_id)
                     user.completed_today = 0
                     await database.user.save(user)
+                logger.daily_reset.log("Resetting complete")
                     
             loop.run_until_complete(reset())
             
         
             loop = asyncio.new_event_loop()
             
-            schedule.every().day.do(reset_daily)
+            schedule.every().day.at("22:00").do(reset_daily)
             
             while self.started:
                 schedule.run_pending()
@@ -53,29 +55,6 @@ class Reset_Thread():
     def stop(self):
         self.started = False
         self.thread.join()
-
-def resetter():
-    
-    print("Started daily resetter")
-    
-    def reset_daily():
-        async def reset():
-            logger.database.log("Resetting daily database data...")
-            for user_id in database.user.get_ids():
-                user = await database.user.load(user_id)
-                user.completed_today = 0
-                await database.user.save(user)
-                
-        loop.run_until_complete(reset())
-        
-    
-    loop = asyncio.new_event_loop()
-    
-    schedule.every().day.do(reset_daily)
-    
-    while True:
-        schedule.run_pending()
-        time.sleep(1)
     
 
 async def main(thread) -> None:
@@ -103,7 +82,6 @@ async def main(thread) -> None:
         start_handler.router,
         menu_handler.router,
         callback_handler.router,
-
     )
     
     await dp.start_polling(bot)

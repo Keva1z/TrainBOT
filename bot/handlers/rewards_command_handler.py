@@ -41,6 +41,7 @@ async def use(message: types.Message):
             
     else:
         partner = await database.user.load(user.partner_id)
+        partner_rewards = await database.reward.load(user.partner_id)
         abbr = 'а' if partner.sex == 'FEMALE' else ''
         if arg1 in range(1, len(partner.rewards)+1):
             if partner.rewards[arg1-1].count > 0:
@@ -53,8 +54,8 @@ async def use(message: types.Message):
                 await bot.send_message(chat_id, "<b>===== ALERT =====</b>")
                 await message.answer(f'Отправил уведомление {partner.name}!',
                                 reply_markup=await kb.basic())
-                partner.rewards[arg1-1].count -= 1
-                await database.user.save(partner)
+                partner_rewards.rewards[arg1-1].count -= 1
+                await database.reward.save(partner_rewards)
             else:
                 await message.answer(f"У вас нет наград с ID {arg1}, проверьте, может быть их количество 0?",
                                 reply_markup=await kb.basic())
