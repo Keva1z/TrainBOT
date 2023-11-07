@@ -6,6 +6,10 @@ __pycache__/
 # C extensions
 *.so
 
+# Admin list file
+
+bot\admin_list.py
+
 # Distribution / packaging
 .Python
 build/

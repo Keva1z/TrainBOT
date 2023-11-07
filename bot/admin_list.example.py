@@ -1,0 +1,1 @@
+admin_list = [] # Your telegram id's here
