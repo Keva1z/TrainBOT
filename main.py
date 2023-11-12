@@ -48,7 +48,6 @@ class Reset_Thread():
         while self.started:
             schedule.run_pending()
             time.sleep(1)
-            print("Pending")
                 
         
     def run(self):
